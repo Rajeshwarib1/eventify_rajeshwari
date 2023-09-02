@@ -1,57 +1,57 @@
 package com.eventify.controller;
 
-import com.eventify.entity.VendorEntity;
+import com.eventify.model.Vendor;
 import com.eventify.service.VendorService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/vendors")
+@RequestMapping("/api/v1/")
 public class VendorController {
-
+	@Autowired
     private final VendorService vendorService;
 
-    @Autowired
     public VendorController(VendorService vendorService) {
         this.vendorService = vendorService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<VendorEntity>> getAllVendors() {
-        List<VendorEntity> vendors = vendorService.getAllVendors();
-        return ResponseEntity.ok(vendors);
+    @PostMapping("/vendor")
+    public Vendor createVendor(@RequestBody Vendor vendor) {
+        return vendorService.createVendor(vendor);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<VendorEntity> getVendorById(@PathVariable Long id) {
-        Optional<VendorEntity> vendor = vendorService.getVendorById(id);
-        return vendor.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    @GetMapping("/vendor")
+    public List<Vendor> getAllVendors() {
+        return  vendorService.getAllVendors();
     }
 
-    @PostMapping
-    public ResponseEntity<VendorEntity> createVendor(@RequestBody VendorEntity vendor) {
-        VendorEntity newVendor = vendorService.createVendor(vendor);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newVendor);
+    @DeleteMapping("/vendor/{id}")
+    public ResponseEntity<Map<String,Boolean>> deleteVendor(@PathVariable Long id) {
+        boolean deleted = false;
+        deleted = vendorService.deleteVendor(id);
+        Map<String,Boolean> response = new HashMap<>();
+        response.put("deleted", deleted);
+        return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<VendorEntity> updateVendor(@PathVariable Long id, @RequestBody VendorEntity vendorDetails) {
-        VendorEntity updatedVendor = vendorService.updateVendor(id, vendorDetails);
-        if (updatedVendor != null) {
-            return ResponseEntity.ok(updatedVendor);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/vendor/{id}")
+    public ResponseEntity<Vendor> getVendorById(@PathVariable Long id) {
+        Vendor vendor = null;
+        vendor = vendorService.getVendorById(id);
+        return ResponseEntity.ok(vendor);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVendor(@PathVariable Long id) {
-        vendorService.deleteVendor(id);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/vendor/{id}")
+    public ResponseEntity<Vendor> updateVendor(@PathVariable Long id,
+                                               @RequestBody Vendor vendor) {
+        vendor = vendorService.updateVendor(id, vendor);
+        return ResponseEntity.ok(vendor);
     }
 }

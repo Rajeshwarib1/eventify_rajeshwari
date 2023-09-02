@@ -8,7 +8,44 @@ import jakarta.persistence.Id;
 @Entity
 public class VendorEntity {
 
-    @Id
+    public static final String getDescription = null;
+
+	public static String getGetdescription() {
+		return getDescription;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
+	public VendorEntity(Long id, String username, String password, String firstName, String lastName, String email,
+			String phone, String address, String gender, String serviceType, String serviceId, String description,
+			String price) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+		this.gender = gender;
+		this.serviceType = serviceType;
+		this.serviceId = serviceId;
+		this.description = description;
+		this.price = price;
+	}
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
@@ -22,6 +59,8 @@ public class VendorEntity {
     private String gender;
     private String serviceType;
     private String serviceId;
+    private String description;
+    private String price;
 
     // Constructors, getters, setters, toString
 
@@ -134,12 +173,17 @@ public class VendorEntity {
 		this.serviceId = serviceId;
 	}  
 
-    // toString method
     @Override
-    public String toString() {
-        return "VendorEntity [id=" + id + ", username=" + username + ", password=" + password +
-               ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email +
-               ", phone=" + phone + ", address=" + address + ", gender=" + gender +
-               ", serviceType=" + serviceType + ", serviceId=" + serviceId + "]";
-    }
+	public String toString() {
+		return "VendorEntity [id=" + id + ", username=" + username + ", password=" + password + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", email=" + email + ", phone=" + phone + ", address="
+				+ address + ", gender=" + gender + ", serviceType=" + serviceType + ", serviceId=" + serviceId
+				+ ", description=" + description + ", price=" + price + "]";
+	}
+
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

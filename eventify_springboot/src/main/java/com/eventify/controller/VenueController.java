@@ -1,57 +1,57 @@
 package com.eventify.controller;
 
-import com.eventify.entity.VenueEntity;
+import com.eventify.model.Venue;
 import com.eventify.service.VenueService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/venues")
+@RequestMapping("/api/v1/")
 public class VenueController {
-
+	@Autowired
     private final VenueService venueService;
 
-    @Autowired
     public VenueController(VenueService venueService) {
         this.venueService = venueService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<VenueEntity>> getAllVenues() {
-        List<VenueEntity> venues = venueService.getAllVenues();
-        return ResponseEntity.ok(venues);
+    @PostMapping("/venue")
+    public Venue createVenue(@RequestBody Venue venue) {
+        return venueService.createVenue(venue);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<VenueEntity> getVenueById(@PathVariable Long id) {
-        Optional<VenueEntity> venue = venueService.getVenueById(id);
-        return venue.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    @GetMapping("/venue")
+    public List<Venue> getAllVenues() {
+        return venueService.getAllVenues();
     }
 
-    @PostMapping
-    public ResponseEntity<VenueEntity> createVenue(@RequestBody VenueEntity venue) {
-        VenueEntity newVenue = venueService.createVenue(venue);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newVenue);
+    @DeleteMapping("/venue/{id}")
+    public ResponseEntity<Map<String,Boolean>> deleteVenue(@PathVariable Long id) {
+        boolean deleted = false;
+        deleted = venueService.deleteVenue(id);
+        Map<String,Boolean> response = new HashMap<>();
+        response.put("deleted", deleted);
+        return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<VenueEntity> updateVenue(@PathVariable Long id, @RequestBody VenueEntity venueDetails) {
-        VenueEntity updatedVenue = venueService.updateVenue(id, venueDetails);
-        if (updatedVenue != null) {
-            return ResponseEntity.ok(updatedVenue);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/venue/{id}")
+    public ResponseEntity<Venue> getVenueById(@PathVariable Long id) {
+        Venue venue = null;
+        venue = venueService.getVenueById(id);
+        return ResponseEntity.ok(venue);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVenue(@PathVariable Long id) {
-        venueService.deleteVenue(id);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/venue/{id}")
+    public ResponseEntity<Venue> updateVenue(@PathVariable Long id,
+                                             @RequestBody Venue venue) {
+        venue = venueService.updateVenue(id, venue);
+        return ResponseEntity.ok(venue);
     }
 }

@@ -1,59 +1,21 @@
 package com.eventify.service;
 
 import com.eventify.entity.CustomerEntity;
-import com.eventify.repository.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.eventify.model.Customer;
 
 import java.util.List;
-import java.util.Optional;
 
-@Service
-public class CustomerService {
+public interface CustomerService {
+	public String createCustomer(CustomerEntity customer);
 
-    private final CustomerRepository customerRepository;
+    List<Customer> getAllCustomer();
 
-    @Autowired
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
+    boolean deleteCustomer(Long id);
 
-    public List<CustomerEntity> getAllCustomers() {
-        return customerRepository.findAll();
-    }
+    Customer getCustomerById(Long id);
 
-    public Optional<CustomerEntity> getCustomerById(Long id) {
-        return customerRepository.findById(id);
-    }
+    Customer updateCustomer(Long id, Customer customer);
 
-    public CustomerEntity createCustomer(CustomerEntity customer) {
-        return customerRepository.save(customer);
-    }
+	List<Customer> getAllCustomers();
 
-    public CustomerEntity updateCustomer(Long id, CustomerEntity customerDetails) {
-        Optional<CustomerEntity> optionalCustomer = customerRepository.findById(id);
-        if (optionalCustomer.isPresent()) {
-            CustomerEntity customer = optionalCustomer.get();
-            customer.setUsername(customerDetails.getUsername());
-            customer.setPassword(customerDetails.getPassword());
-            customer.setFirstName(customerDetails.getFirstName());
-            customer.setLastName(customerDetails.getLastName());
-            customer.setEmail(customerDetails.getEmail());
-            customer.setPhone(customerDetails.getPhone());
-            customer.setAddress(customerDetails.getAddress());
-            customer.setGender(customerDetails.getGender());
-            // Update other fields here
-            return customerRepository.save(customer);
-        }
-        return null; // Handle not found case
-    }
-
-    public void deleteCustomer(Long id) {
-        customerRepository.deleteById(id);
-    }
-
-	public void updateLastLoginTime(String username) {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -1,57 +1,57 @@
 package com.eventify.controller;
 
-import com.eventify.entity.EventPlannerEntity;
+import com.eventify.model.EventPlanner;
 import com.eventify.service.EventPlannerService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/eventplanners")
+@RequestMapping("/api/v1/")
 public class EventPlannerController {
-
-    private final EventPlannerService eventPlannerService;
-
     @Autowired
+     EventPlannerService eventPlannerService;
+
     public EventPlannerController(EventPlannerService eventPlannerService) {
         this.eventPlannerService = eventPlannerService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<EventPlannerEntity>> getAllEventPlanners() {
-        List<EventPlannerEntity> eventPlanners = eventPlannerService.getAllEventPlanners();
-        return ResponseEntity.ok(eventPlanners);
+    @PostMapping("/eventPlanner")
+    public EventPlanner createEventPlanner(@RequestBody EventPlanner eventPlanner) {
+        return eventPlannerService.createEventPlanner(eventPlanner);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<EventPlannerEntity> getEventPlannerById(@PathVariable Long id) {
-        Optional<EventPlannerEntity> eventPlanner = eventPlannerService.getEventPlannerById(id);
-        return eventPlanner.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    @GetMapping("/eventPlanner")
+    public List<EventPlanner> getAllEventPlanners() {
+        return  eventPlannerService.getAllEventPlanners();
     }
 
-    @PostMapping
-    public ResponseEntity<EventPlannerEntity> createEventPlanner(@RequestBody EventPlannerEntity eventPlanner) {
-        EventPlannerEntity newEventPlanner = eventPlannerService.createEventPlanner(eventPlanner);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newEventPlanner);
+    @DeleteMapping("/eventPlanner/{id}")
+    public ResponseEntity<Map<String,Boolean>> deleteEventPlanner(@PathVariable Long id) {
+        boolean deleted = false;
+        deleted = eventPlannerService.deleteEventPlanner(id);
+        Map<String,Boolean> response = new HashMap<>();
+        response.put("deleted", deleted);
+        return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<EventPlannerEntity> updateEventPlanner(@PathVariable Long id, @RequestBody EventPlannerEntity eventPlannerDetails) {
-        EventPlannerEntity updatedEventPlanner = eventPlannerService.updateEventPlanner(id, eventPlannerDetails);
-        if (updatedEventPlanner != null) {
-            return ResponseEntity.ok(updatedEventPlanner);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/eventPlanner/{id}")
+    public ResponseEntity<EventPlanner> getEventPlannerById(@PathVariable Long id) {
+        EventPlanner eventPlanner = null;
+        eventPlanner = eventPlannerService.getEventPlannerById(id);
+        return ResponseEntity.ok(eventPlanner);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEventPlanner(@PathVariable Long id) {
-        eventPlannerService.deleteEventPlanner(id);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/eventPlanner/{id}")
+    public ResponseEntity<EventPlanner> updateEventPlanner(@PathVariable Long id,
+                                                           @RequestBody EventPlanner eventPlanner) {
+        eventPlanner = eventPlannerService.updateEventPlanner(id, eventPlanner);
+        return ResponseEntity.ok(eventPlanner);
     }
 }

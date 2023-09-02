@@ -22,6 +22,8 @@ public class EventPlannerEntity {
     private String gender;
     private String expertise;
     private String portfolioLink;
+    private String description;
+    private String price;
 
     // Constructors, getters, setters, toString
 
@@ -30,24 +32,46 @@ public class EventPlannerEntity {
     }
 
     // Parameterized constructor
-    public EventPlannerEntity(String username, String password, String firstName, String lastName,
-            String email, String phone, String address, String gender, String expertise, String portfolioLink) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.gender = gender;
-        this.expertise = expertise;
-        this.portfolioLink = portfolioLink;
-    }
 
     // Getters and setters
 
 	public Long getId() {
 		return id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
+	public EventPlannerEntity(Long id, String username, String password, String firstName, String lastName,
+			String email, String phone, String address, String gender, String expertise, String portfolioLink,
+			String description, String price) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+		this.gender = gender;
+		this.expertise = expertise;
+		this.portfolioLink = portfolioLink;
+		this.description = description;
+		this.price = price;
 	}
 
 	public void setId(Long id) {
@@ -134,12 +158,11 @@ public class EventPlannerEntity {
 		this.portfolioLink = portfolioLink;
 	}
 
-    // toString method
     @Override
-    public String toString() {
-        return "EventPlannerEntity [id=" + id + ", username=" + username + ", password=" + password +
-               ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email +
-               ", phone=" + phone + ", address=" + address + ", gender=" + gender +
-               ", expertise=" + expertise + ", portfolioLink=" + portfolioLink + "]";
-    }
+	public String toString() {
+		return "EventPlannerEntity [id=" + id + ", username=" + username + ", password=" + password + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", email=" + email + ", phone=" + phone + ", address="
+				+ address + ", gender=" + gender + ", expertise=" + expertise + ", portfolioLink=" + portfolioLink
+				+ ", description=" + description + ", price=" + price + "]";
+	}
 }

@@ -1,19 +1,49 @@
-import React from 'react';
-import './Footer.css';
+import React from "react";
+import './Footer.css'
 
-const Footer = () => {
-  return (
-    <div className='footer'>
-        <div className='us'>
-        <h3>About Us</h3>
-        <h3>Contact Us</h3>
-        <h3>Privacy Policies</h3>
-        <h3>FAQ</h3>
-        <h3>Report Issue</h3> 
-        </div>        
-        <h1>Eventify CDAC Project 2023, Made By Team - BroCode</h1>       
-    </div>
-  );
+const Footer=()=>{
+    return(
+    <footer className="footer">
+      <div className="flex-container">
+        <div className="column">
+          <h1>About EVENTIFY</h1>
+          <h5>Best Event Booking Portal</h5>
+        </div>
+        <div className="column">
+          <ul> 
+            <li>{'>'} About Us</li>
+            <li>{'>'} Team</li>
+            <li>{'>'} Contact Us</li>
+            <li>{'>'} FAQ</li>
+            <li>{'>'} Create Event Website</li>
+            <li>{'>'} List With Us</li>
+          </ul>
+        </div>
+        <div className="column">
+          <ul>
+            <li>{'>'} Media</li>
+            <li>{'>'} Add Your Venue</li>
+            <li>{'>'} Feedback</li>
+            <li>{'>'} Real Events</li>
+            <li>{'>'} Offers</li>
+          </ul>
+        </div>
+        <div className="column">
+          <ul>
+            <li>{'>'} Corporate Offerings</li>
+            <li>{'>'} Jobs</li>
+            <li>{'>'} Testimonial</li>
+            <li>{'>'} Blog</li>
+          </ul>
+        </div>
+        <div className="column contact">
+          <h4>{'>'} Contact Us</h4>
+          <p>+911234567890</p>
+          <p>info.eventify@gmail.com</p>
+        </div>
+      </div>
+    </footer>
+    );
 };
 
 export default Footer;

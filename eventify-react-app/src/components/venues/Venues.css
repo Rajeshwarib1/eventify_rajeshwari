@@ -1,0 +1,48 @@
+.mid{
+  background-image: linear-gradient(#ff8c005d,#ff8c00ac); ;
+  padding-top: 20px;
+  padding-bottom: 300px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+
+}
+
+h2{
+  color: #333;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+  }
+  
+  .red-box {
+    width: 400px;
+    height: 400px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    border-radius: 20px;
+  }
+  
+  .red-box img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+  }
+  .ss{
+    text-align: center;
+    height: 700px;
+    width: 1400px ;
+    margin-left: 230px;
+  }
+  .container > .red-box{
+    background-color: #333333ac;
+  }

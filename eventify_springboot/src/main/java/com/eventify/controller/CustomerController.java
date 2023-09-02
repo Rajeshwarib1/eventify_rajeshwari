@@ -1,57 +1,60 @@
 package com.eventify.controller;
 
 import com.eventify.entity.CustomerEntity;
+import com.eventify.model.Customer;
 import com.eventify.service.CustomerService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+
 
 @RestController
-@RequestMapping("/api/customers")
+@CrossOrigin(origins = "http://192.168.56.1:3001")
+@RequestMapping("/api/v1/")
 public class CustomerController {
-
+	@Autowired
     private final CustomerService customerService;
 
-    @Autowired
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<CustomerEntity>> getAllCustomers() {
-        List<CustomerEntity> customers = customerService.getAllCustomers();
-        return ResponseEntity.ok(customers);
+    @PostMapping("/resist")
+    public String createCustomer(@RequestBody CustomerEntity cust) {
+         customerService.createCustomer(cust);
+        return "Done";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CustomerEntity> getCustomerById(@PathVariable Long id) {
-        Optional<CustomerEntity> customer = customerService.getCustomerById(id);
-        return customer.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    @GetMapping("/customer")
+    public List<Customer> getAllCustomers() {
+        return  customerService.getAllCustomers();
     }
 
-    @PostMapping
-    public ResponseEntity<CustomerEntity> createCustomer(@RequestBody CustomerEntity customer) {
-        CustomerEntity newCustomer = customerService.createCustomer(customer);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newCustomer);
+    @DeleteMapping("/customer/{id}")
+    public ResponseEntity<Map<String,Boolean>> deleteCustomer(@PathVariable Long id) {
+        boolean deleted = false;
+        deleted = customerService.deleteCustomer(id);
+        Map<String,Boolean> response = new HashMap<>();
+        response.put("deleted", deleted);
+        return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CustomerEntity> updateCustomer(@PathVariable Long id, @RequestBody CustomerEntity customerDetails) {
-        CustomerEntity updatedCustomer = customerService.updateCustomer(id, customerDetails);
-        if (updatedCustomer != null) {
-            return ResponseEntity.ok(updatedCustomer);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/customer/{id}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
+        Customer customer = null;
+        customer = customerService.getCustomerById(id);
+        return ResponseEntity.ok(customer);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
-        customerService.deleteCustomer(id);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/customer/{id}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id,
+                                                   @RequestBody Customer customer) {
+        customer = customerService.updateCustomer(id, customer);
+        return ResponseEntity.ok(customer);
     }
 }

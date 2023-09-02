@@ -11,16 +11,33 @@ public class VenueEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+    	
     private String name;
     private String type;
     private String address;
     private String description;
     private String capacity;
-
+    private double price;
+    
     // Constructors, getters, setters, toString
 
-    // Default constructor
+    public void setPrice(double price) {
+		this.price = price;
+	}
+    
+	public VenueEntity(Long id, String name, String type, String address, String description, String capacity,
+			double price) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.type = type;
+		this.address = address;
+		this.description = description;
+		this.capacity = capacity;
+		this.price = price;
+	}
+
+	// Default constructor
     public VenueEntity() {
     }
 
@@ -84,9 +101,21 @@ public class VenueEntity {
 	}
 	
     // toString method
-    @Override
-    public String toString() {
-        return "VenueEntity [id=" + id + ", name=" + name + ", type=" + type +
-               ", address=" + address + ", description=" + description + ", capacity=" + capacity + "]";
-    }
+
+	public Object getLocality() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String toString() {
+		return "VenueEntity [id=" + id + ", name=" + name + ", type=" + type + ", address=" + address + ", description="
+				+ description + ", capacity=" + capacity + ", price=" + price + "]";
+	}
+
+	public Object getPrice() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -35,6 +35,23 @@ public class CustomerEntity {
 			this.address = address;
 			this.gender = gender;
 		}
+		
+		
+
+		public CustomerEntity(String username, String password, String email, String firstName, String lastName,
+				String phone, String address, String gender) {
+			super();
+			this.username = username;
+			this.password = password;
+			this.email = email;
+			this.firstName = firstName;
+			this.lastName = lastName;
+			this.phone = phone;
+			this.address = address;
+			this.gender = gender;
+		}
+
+
 
 		public CustomerEntity() {
 			super();

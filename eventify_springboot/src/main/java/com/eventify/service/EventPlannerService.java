@@ -1,53 +1,28 @@
 package com.eventify.service;
 
-import com.eventify.entity.EventPlannerEntity;
-import com.eventify.repository.EventPlannerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 
-@Service
-public class EventPlannerService {
+import com.eventify.model.EventPlanner;
 
-    private final EventPlannerRepository eventPlannerRepository;
+public interface EventPlannerService {
+	EventPlanner createEventPlanners(EventPlanner eventPlanner);
 
-    @Autowired
-    public EventPlannerService(EventPlannerRepository eventPlannerRepository) {
-        this.eventPlannerRepository = eventPlannerRepository;
-    }
+    List<EventPlanner> getAllEventPlanner();
 
-    public List<EventPlannerEntity> getAllEventPlanners() {
-        return eventPlannerRepository.findAll();
-    }
+    boolean deleteEventPlanners(Long id);
 
-    public Optional<EventPlannerEntity> getEventPlannerById(Long id) {
-        return eventPlannerRepository.findById(id);
-    }
+    EventPlanner getEventPlannersById(Long id);
 
-    public EventPlannerEntity createEventPlanner(EventPlannerEntity eventPlanner) {
-        return eventPlannerRepository.save(eventPlanner);
-    }
+    EventPlanner updateEventPlanners(Long id, EventPlanner eventPlanner);
 
-    public EventPlannerEntity updateEventPlanner(Long id, EventPlannerEntity eventPlannerDetails) {
-        Optional<EventPlannerEntity> optionalEventPlanner = eventPlannerRepository.findById(id);
-        if (optionalEventPlanner.isPresent()) {
-            EventPlannerEntity eventPlanner = optionalEventPlanner.get();
-            eventPlanner.setFirstName(eventPlannerDetails.getFirstName());
-            eventPlanner.setLastName(eventPlannerDetails.getLastName());
-            eventPlanner.setEmail(eventPlannerDetails.getEmail());
-            eventPlanner.setPhone(eventPlannerDetails.getPhone());
-            eventPlanner.setAddress(eventPlannerDetails.getAddress());
-            eventPlanner.setGender(eventPlannerDetails.getGender());
-            eventPlanner.setExpertise(eventPlannerDetails.getExpertise());
-            // Update other fields here
-            return eventPlannerRepository.save(eventPlanner);
-        }
-        return null; // Handle not found case
-    }
+	EventPlanner createEventPlanner(EventPlanner eventPlanner);
 
-    public void deleteEventPlanner(Long id) {
-        eventPlannerRepository.deleteById(id);
-    }
+	List<EventPlanner> getAllEventPlanners();
+
+	boolean deleteEventPlanner(Long id);
+
+	EventPlanner getEventPlannerById(Long id);
+
+	EventPlanner updateEventPlanner(Long id, EventPlanner eventPlanner);
+
 }
